@@ -25,7 +25,9 @@ apps/forge-ui/.svelte-kit/
 # =============================================================================
 tauri/src-tauri/target/
 tauri/src-tauri/WixTools/
-tauri/src-tauri/icons/
+# Keep icon sources but ignore generated platform-specific icons
+tauri/src-tauri/icons/*.ico
+tauri/src-tauri/icons/*.icns
 
 # =============================================================================
 # IDE / Editors
