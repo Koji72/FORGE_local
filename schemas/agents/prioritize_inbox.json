@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://forge.local/schemas/agents/prioritize_inbox.json",
+  "title": "Prioritize Inbox Agent Output",
+  "description": "Output schema for the prioritize_inbox agent that ranks tasks by priority",
+  "type": "object",
+  "required": ["ranked_tasks"],
+  "properties": {
+    "ranked_tasks": {
+      "type": "array",
+      "description": "List of tasks ranked by priority score (highest first)",
+      "items": {
+        "type": "object",
+        "required": ["task_id", "priority_score", "reason"],
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "description": "UUID of the task",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "priority_score": {
+            "type": "number",
+            "description": "Priority score from 0 (lowest) to 100 (highest)",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "reason": {
+            "type": "string",
+            "description": "Brief explanation for the priority score",
+            "maxLength": 240
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "Optional summary of the prioritization",
+      "maxLength": 500
+    }
+  },
+  "additionalProperties": false
+}

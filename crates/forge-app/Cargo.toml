@@ -1,0 +1,32 @@
+[package]
+name = "forge-app"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Application wiring and Tauri command handlers for Forge"
+
+[dependencies]
+forge-domain = { path = "../forge-domain" }
+forge-storage = { path = "../forge-storage" }
+forge-indexing = { path = "../forge-indexing" }
+forge-agents = { path = "../forge-agents" }
+forge-sync = { path = "../forge-sync" }
+forge-plugins = { path = "../forge-plugins" }
+forge-api-ipc = { path = "../forge-api-ipc" }
+
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+tokio = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+tokio-test = { workspace = true }
+mockall = { workspace = true }

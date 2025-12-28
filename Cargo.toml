@@ -1,0 +1,96 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/forge-domain",
+    "crates/forge-storage",
+    "crates/forge-indexing",
+    "crates/forge-agents",
+    "crates/forge-sync",
+    "crates/forge-plugins",
+    "crates/forge-api-ipc",
+    "crates/forge-app",
+    "tauri/src-tauri",
+]
+
+[workspace.package]
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.82"
+authors = ["Forge Team"]
+license = "MIT"
+repository = "https://github.com/forge/forge"
+homepage = "https://forge.local"
+description = "Local-first productivity app with AI agents"
+
+[workspace.dependencies]
+# Async runtime
+tokio = { version = "1.40", features = ["full"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Database
+rusqlite = { version = "0.32", features = ["bundled-sqlcipher", "backup", "functions", "trace"] }
+sqlx = { version = "0.8", features = ["runtime-tokio", "sqlite"] }
+
+# UUID
+uuid = { version = "1.10", features = ["v7", "serde"] }
+
+# Crypto
+argon2 = "0.5"
+chacha20poly1305 = "0.10"
+ed25519-dalek = { version = "2.1", features = ["serde", "rand_core"] }
+x25519-dalek = { version = "2.0", features = ["serde"] }
+rand = "0.8"
+sha2 = "0.10"
+zeroize = { version = "1.8", features = ["derive"] }
+
+# CRDT
+yrs = "0.21"
+
+# HTTP client (for Ollama)
+reqwest = { version = "1.0", features = ["json", "rustls-tls"], default-features = false }
+
+# JSON Schema validation
+jsonschema = "0.18"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
+
+# Error handling
+thiserror = "2.0"
+anyhow = "1.0"
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Tauri
+tauri = { version = "2.1", features = ["devtools"] }
+tauri-plugin-shell = "2"
+tauri-plugin-fs = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-clipboard-manager = "2"
+tauri-plugin-notification = "2"
+
+# Testing
+mockall = "0.13"
+tempfile = "3.13"
+tokio-test = "0.4"
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+strip = "symbols"
+panic = "abort"
+codegen-units = 1
+
+[profile.release-debug]
+inherits = "release"
+debug = true
+strip = "none"

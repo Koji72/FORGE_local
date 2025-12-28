@@ -1,0 +1,29 @@
+[package]
+name = "forge-agents"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "AI agent orchestration and execution for Forge"
+
+[dependencies]
+forge-domain = { path = "../forge-domain" }
+forge-storage = { path = "../forge-storage" }
+forge-indexing = { path = "../forge-indexing" }
+
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tokio = { workspace = true }
+reqwest = { workspace = true }
+jsonschema = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+tokio-test = { workspace = true }
+mockall = { workspace = true }

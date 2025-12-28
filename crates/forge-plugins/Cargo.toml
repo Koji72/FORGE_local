@@ -1,0 +1,37 @@
+[package]
+name = "forge-plugins"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Plugin system with permissions and sandboxing for Forge"
+
+[dependencies]
+forge-domain = { path = "../forge-domain" }
+forge-storage = { path = "../forge-storage" }
+
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tokio = { workspace = true }
+
+# Signature verification
+ed25519-dalek = { workspace = true }
+sha2 = { workspace = true }
+
+# JavaScript runtime for plugins (sandboxed)
+# Using deno_core for V8 isolation
+# deno_core = "0.272"  # Uncomment when implementing
+
+# ZIP handling for plugin packages
+zip = "2.2"
+
+[dev-dependencies]
+tempfile = { workspace = true }
+tokio-test = { workspace = true }
+mockall = { workspace = true }

@@ -1,0 +1,138 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://forge.local/schemas/agents/plan_day.json",
+  "title": "Plan Day Agent Output",
+  "description": "Output schema for the plan_day agent",
+  "type": "object",
+  "required": ["plan_date", "scheduled_tasks", "summary"],
+  "properties": {
+    "plan_date": {
+      "type": "integer",
+      "description": "Date being planned as epoch milliseconds UTC"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Brief overview of the day plan",
+      "maxLength": 300
+    },
+    "total_estimated_hours": {
+      "type": "number",
+      "description": "Total estimated work hours",
+      "minimum": 0,
+      "maximum": 24
+    },
+    "scheduled_tasks": {
+      "type": "array",
+      "description": "Tasks scheduled for the day in order",
+      "items": {
+        "type": "object",
+        "required": ["task_id", "title", "order"],
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "description": "UUID of the task"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task title"
+          },
+          "order": {
+            "type": "integer",
+            "description": "Order in the day (1 = first)",
+            "minimum": 1
+          },
+          "suggested_start": {
+            "type": "string",
+            "description": "Suggested start time (HH:MM format)",
+            "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "estimated_duration_min": {
+            "type": "integer",
+            "description": "Estimated duration in minutes",
+            "minimum": 5
+          },
+          "energy_required": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why this task was included/positioned",
+            "maxLength": 150
+          }
+        },
+        "additionalProperties": false
+      },
+      "maxItems": 15
+    },
+    "time_blocks": {
+      "type": "array",
+      "description": "Suggested time blocks for the day",
+      "items": {
+        "type": "object",
+        "required": ["start", "end", "type"],
+        "properties": {
+          "start": {
+            "type": "string",
+            "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "end": {
+            "type": "string",
+            "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["deep_work", "shallow_work", "meetings", "break", "admin"]
+          },
+          "task_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 100
+          }
+        }
+      }
+    },
+    "deferred_tasks": {
+      "type": "array",
+      "description": "Tasks not scheduled for today with reason",
+      "items": {
+        "type": "object",
+        "required": ["task_id", "reason"],
+        "properties": {
+          "task_id": { "type": "string" },
+          "title": { "type": "string" },
+          "reason": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "suggested_date": {
+            "type": "integer",
+            "description": "Suggested future date as epoch ms"
+          }
+        }
+      }
+    },
+    "focus_goal": {
+      "type": "object",
+      "description": "Primary goal to focus on today",
+      "properties": {
+        "goal_id": { "type": "string" },
+        "title": { "type": "string" },
+        "contribution": {
+          "type": "string",
+          "description": "How today's tasks contribute to this goal",
+          "maxLength": 150
+        }
+      }
+    },
+    "energy_curve": {
+      "type": "string",
+      "description": "Assumed energy pattern for task placement",
+      "enum": ["morning_peak", "afternoon_peak", "evening_peak", "steady"]
+    }
+  },
+  "additionalProperties": false
+}

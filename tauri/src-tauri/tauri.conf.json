@@ -1,0 +1,145 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Forge",
+  "version": "1.0.0",
+  "identifier": "com.forge.app",
+  "build": {
+    "beforeDevCommand": "cd ../apps/forge-ui && npm run dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "cd ../apps/forge-ui && npm run build",
+    "frontendDist": "../apps/forge-ui/build"
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "security": {
+      "csp": {
+        "default-src": "'self'",
+        "script-src": "'self'",
+        "style-src": "'self' 'unsafe-inline'",
+        "img-src": "'self' data: blob:",
+        "font-src": "'self' data:",
+        "connect-src": "'self' http://127.0.0.1:11434 ws://127.0.0.1:* wss://127.0.0.1:*",
+        "frame-src": "'none'",
+        "object-src": "'none'",
+        "base-uri": "'self'",
+        "form-action": "'self'"
+      },
+      "dangerousDisableAssetCspModification": false,
+      "freezePrototype": true,
+      "dangerousRemoteDomainIpcAccess": []
+    },
+    "windows": [
+      {
+        "title": "Forge",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 800,
+        "minHeight": 600,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true,
+        "decorations": true,
+        "transparent": false,
+        "focus": true,
+        "visible": true,
+        "maximized": false
+      }
+    ],
+    "trayIcon": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": [],
+    "externalBin": [],
+    "copyright": "Copyright 2025 Forge",
+    "category": "Productivity",
+    "shortDescription": "Local-first task and note manager with AI agents",
+    "longDescription": "Forge is a local-first productivity application with AI-powered task prioritization, note management, and goal tracking. Features end-to-end encrypted sync and extensible plugin system.",
+    "licenseFile": "../LICENSE",
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": "",
+      "wix": null,
+      "nsis": {
+        "displayLanguageSelector": true,
+        "installerIcon": "icons/icon.ico",
+        "languages": ["English"],
+        "license": "../LICENSE"
+      }
+    },
+    "linux": {
+      "appimage": {
+        "bundleMediaFramework": false
+      },
+      "deb": {
+        "depends": []
+      },
+      "rpm": {
+        "release": "1"
+      }
+    },
+    "macOS": {
+      "entitlements": null,
+      "exceptionDomain": null,
+      "frameworks": [],
+      "minimumSystemVersion": "10.15",
+      "signingIdentity": null
+    }
+  },
+  "plugins": {
+    "shell": {
+      "open": true,
+      "scope": []
+    },
+    "fs": {
+      "scope": {
+        "allow": [
+          "$APPDATA/**",
+          "$APPCACHE/**",
+          "$APPLOG/**",
+          "$DOCUMENT/**",
+          "$DOWNLOAD/**"
+        ],
+        "deny": [
+          "$HOME/.ssh/**",
+          "$HOME/.gnupg/**",
+          "/etc/**",
+          "/var/**"
+        ]
+      }
+    },
+    "dialog": {
+      "open": true,
+      "save": true,
+      "message": true,
+      "ask": true,
+      "confirm": true
+    },
+    "clipboard": {
+      "all": false,
+      "writeText": true,
+      "readText": true
+    },
+    "notification": {
+      "all": true
+    },
+    "updater": {
+      "active": true,
+      "endpoints": [],
+      "dialog": true,
+      "pubkey": ""
+    }
+  }
+}

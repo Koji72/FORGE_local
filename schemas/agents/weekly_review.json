@@ -1,0 +1,150 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://forge.local/schemas/agents/weekly_review.json",
+  "title": "Weekly Review Agent Output",
+  "description": "Output schema for the weekly_review agent",
+  "type": "object",
+  "required": ["review_date", "summary", "sections"],
+  "properties": {
+    "review_date": {
+      "type": "integer",
+      "description": "Date of review as epoch milliseconds UTC"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Executive summary of the week",
+      "maxLength": 500
+    },
+    "sections": {
+      "type": "object",
+      "required": ["completed", "in_progress", "blocked", "upcoming"],
+      "properties": {
+        "completed": {
+          "type": "object",
+          "required": ["count", "highlights"],
+          "properties": {
+            "count": {
+              "type": "integer",
+              "description": "Number of tasks completed this week"
+            },
+            "highlights": {
+              "type": "array",
+              "description": "Notable completions",
+              "items": {
+                "type": "object",
+                "required": ["task_id", "title"],
+                "properties": {
+                  "task_id": { "type": "string" },
+                  "title": { "type": "string" },
+                  "note": { "type": "string", "maxLength": 120 }
+                }
+              },
+              "maxItems": 5
+            }
+          }
+        },
+        "in_progress": {
+          "type": "object",
+          "required": ["count", "items"],
+          "properties": {
+            "count": {
+              "type": "integer",
+              "description": "Number of tasks in progress"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["task_id", "title", "status_note"],
+                "properties": {
+                  "task_id": { "type": "string" },
+                  "title": { "type": "string" },
+                  "status_note": { "type": "string", "maxLength": 120 }
+                }
+              },
+              "maxItems": 10
+            }
+          }
+        },
+        "blocked": {
+          "type": "object",
+          "required": ["count", "items"],
+          "properties": {
+            "count": {
+              "type": "integer",
+              "description": "Number of blocked/waiting tasks"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["task_id", "title", "blocker"],
+                "properties": {
+                  "task_id": { "type": "string" },
+                  "title": { "type": "string" },
+                  "blocker": { "type": "string", "maxLength": 120 }
+                }
+              },
+              "maxItems": 10
+            }
+          }
+        },
+        "upcoming": {
+          "type": "object",
+          "required": ["count", "items"],
+          "properties": {
+            "count": {
+              "type": "integer",
+              "description": "Tasks due next week"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["task_id", "title", "due_at"],
+                "properties": {
+                  "task_id": { "type": "string" },
+                  "title": { "type": "string" },
+                  "due_at": { "type": "integer" }
+                }
+              },
+              "maxItems": 10
+            }
+          }
+        }
+      }
+    },
+    "goal_progress": {
+      "type": "array",
+      "description": "Progress on active goals",
+      "items": {
+        "type": "object",
+        "required": ["goal_id", "title", "progress_percent"],
+        "properties": {
+          "goal_id": { "type": "string" },
+          "title": { "type": "string" },
+          "progress_percent": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "note": { "type": "string", "maxLength": 120 }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "description": "Suggestions for next week",
+      "items": {
+        "type": "object",
+        "required": ["type", "description"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["focus", "delegate", "defer", "drop"]
+          },
+          "task_id": { "type": "string" },
+          "description": { "type": "string", "maxLength": 200 }
+        }
+      },
+      "maxItems": 5
+    }
+  },
+  "additionalProperties": false
+}

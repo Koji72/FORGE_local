@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://forge.local/schemas/agents/summarize_note.json",
+  "title": "Summarize Note Agent Output",
+  "description": "Output schema for the summarize_note agent",
+  "type": "object",
+  "required": ["note_id", "summary"],
+  "properties": {
+    "note_id": {
+      "type": "string",
+      "description": "UUID of the summarized note"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Concise summary of the note content",
+      "minLength": 10,
+      "maxLength": 500
+    },
+    "key_points": {
+      "type": "array",
+      "description": "Main points extracted from the note",
+      "items": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "minItems": 1,
+      "maxItems": 10
+    },
+    "topics": {
+      "type": "array",
+      "description": "Main topics/themes identified",
+      "items": {
+        "type": "string",
+        "maxLength": 50
+      },
+      "maxItems": 5
+    },
+    "suggested_tags": {
+      "type": "array",
+      "description": "Suggested tags based on content",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_-]+$"
+      },
+      "maxItems": 5
+    },
+    "related_entities": {
+      "type": "array",
+      "description": "Related tasks/goals mentioned",
+      "items": {
+        "type": "object",
+        "required": ["entity_type", "reference"],
+        "properties": {
+          "entity_type": {
+            "type": "string",
+            "enum": ["task", "goal", "note"]
+          },
+          "entity_id": {
+            "type": "string",
+            "description": "UUID if identified"
+          },
+          "reference": {
+            "type": "string",
+            "description": "Text reference from note",
+            "maxLength": 100
+          }
+        }
+      },
+      "maxItems": 10
+    },
+    "word_count": {
+      "type": "integer",
+      "description": "Original note word count"
+    },
+    "reading_time_min": {
+      "type": "integer",
+      "description": "Estimated reading time in minutes"
+    }
+  },
+  "additionalProperties": false
+}

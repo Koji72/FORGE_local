@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://forge.local/schemas/agents/extract_tasks_from_note.json",
+  "title": "Extract Tasks From Note Agent Output",
+  "description": "Output schema for the extract_tasks_from_note agent",
+  "type": "object",
+  "required": ["tasks"],
+  "properties": {
+    "tasks": {
+      "type": "array",
+      "description": "List of tasks extracted from the note",
+      "items": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task title",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "description_md": {
+            "type": "string",
+            "description": "Optional task description in markdown"
+          },
+          "due_at": {
+            "type": "integer",
+            "description": "Optional due date as epoch milliseconds UTC"
+          },
+          "priority": {
+            "type": "integer",
+            "description": "Optional priority (1=highest, 5=lowest)",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "context_tags": {
+            "type": "array",
+            "description": "Optional context tags",
+            "items": {
+              "type": "string",
+              "pattern": "^@[a-z0-9_-]+$"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "description": "Confidence score for extraction (0-1)",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "source_note_id": {
+      "type": "string",
+      "description": "UUID of the source note"
+    },
+    "extraction_notes": {
+      "type": "string",
+      "description": "Optional notes about the extraction process",
+      "maxLength": 500
+    }
+  },
+  "additionalProperties": false
+}
